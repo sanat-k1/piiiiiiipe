@@ -8,15 +8,20 @@ pipeline {
             }
         }
         stage('Verify Python') {
-    steps {
-        bat 'python --version'
-    }
-}
-
+            steps {
+                bat '''
+                set PATH=C:\\Users\\sanat\\AppData\\Local\\Programs\\Python\\Python312;%PATH%
+                python --version
+                '''
+            }
+        }
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                bat 'python -m unittest discover -s .'
+                bat '''
+                set PATH=C:\\Users\\sanat\\AppData\\Local\\Programs\\Python\\Python312;%PATH%
+                python -m unittest discover -s .
+                '''
             }
         }
         stage('Deploy') {
@@ -32,6 +37,7 @@ pipeline {
             steps {
                 echo 'Running application...'
                 bat '''
+                set PATH=C:\\Users\\sanat\\AppData\\Local\\Programs\\Python\\Python312;%PATH%
                 start /B python "%WORKSPACE%\\python-app-deploy\\app.py" > "%WORKSPACE%\\python-app-deploy\\app.log" 2>&1
                 powershell -Command "(Get-Process -Name python).Id | Out-File -FilePath '%WORKSPACE%\\python-app-deploy\\app.pid'"
                 '''
@@ -41,6 +47,7 @@ pipeline {
             steps {
                 echo 'Testing application...'
                 bat '''
+                set PATH=C:\\Users\\sanat\\AppData\\Local\\Programs\\Python\\Python312;%PATH%
                 python "%WORKSPACE%\\test_app.py"
                 '''
             }

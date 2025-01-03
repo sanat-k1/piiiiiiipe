@@ -7,6 +7,12 @@ pipeline {
                 echo 'Creating virtual environment and installing dependencies...'
             }
         }
+        stage('Verify Python') {
+    steps {
+        bat 'python --version'
+    }
+}
+
         stage('Test') {
             steps {
                 echo 'Running tests...'
